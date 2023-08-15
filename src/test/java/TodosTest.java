@@ -28,7 +28,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchFromTasksOfDifferentTypeOneInAnswer() {
+    public void shouldSearchFromTasksAndFindOneTask() {
         SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
 
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
@@ -54,7 +54,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchFromTasksOfDifferentTypeAllInAnswer() {
+    public void shouldSearchFromTasksAndFindSeveralTasks() {
         SimpleTask simpleTask = new SimpleTask(1, "Купить Хлеб");
 
         String[] subtasks1 = {"Салфетки", "Филе", "Хлеб", "Майонез"};
@@ -71,6 +71,32 @@ public class TodosTest {
 
         Task[] expected = {simpleTask, epic1, epic2};
         Task[] actual = todos.search("Хлеб");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchFromTasksAndFindNoTask() {
+        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+
+        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = new Task[0];
+        Task[] actual = todos.search("Забрать");
 
         Assertions.assertArrayEquals(expected, actual);
     }
